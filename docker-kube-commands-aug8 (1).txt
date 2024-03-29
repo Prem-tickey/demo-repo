@@ -1,0 +1,117 @@
+GIT:
+
+git init .
+git add .
+git status
+git commit -m
+git log
+git reset --soft <commit-id>
+git reset --hard <commit-id>
+git revert <commit-id>
+git stash
+git stash list
+git stash pop id
+git clone
+git pull
+git push
+git branch => list the available branch
+git checkout branch_name => Change the branch
+git checkout -b branch-name => Create new Branch and change
+git merge branch_name  => Merge the branch to current branch
+=======================================  ****************************** ================================
+Docker:
+
+docker info               
+docker --version
+docker images
+docker login
+docker pull image-name
+docker pull alagurajm/imagename	
+docker save image-id -o image.tar  => Coverting image to file
+docker load image.tar            => Creating image from backup image file.
+docker commit <container-name> <imagename>  => Creating Image from Running Container
+docker tag <oldimage:1.0> <newimage:1.0>  -> change the imagename
+docker build dockerfile --tag imagename:1.1
+docker rmi image-name
+docker inspect image-name
+
+
+docker ps
+docoker ps -a
+docker stop <cont-id>
+docker start <cont-id>
+docker inspect <cantainer-name>
+docker rm <cont-id>
+docker run --name web -p 80:80 image-name
+docker run -d --name web -p 80:80 image-name
+docker exec -it cont-name /bin/bash
+docker cp coffee:/usr/local/apache2/htdocs/index.html .   -> Copy from container to local
+docker cp index.html coffee:/usr/local/apache2/htdocs/     -> Copy from Local to Container
+
+docker tag 3c7a40dae5c9 alagurajm/centos-httpd:3.0   [change the tag]
+docker volume ls
+docker volume create my-test-vol   [/var/lib/docker/volume/my-test-vol/_data]
+docker run -d --name web3 --mount source=my-test-vol,destination=/data -p 8083:80  alagurajm/centos  [/data from caontiner path]
+docker run -d --name web4 -v /data:/app -p 8084:80  alagurajm/centos-httpd:3.0  [bind-mount  => /data is local and /app from conatiner]
+docker network ls    [brige, host, overlay]
+docker network create mynetwork
+docker network inspect mynetwork
+docker run -d --name web1 -p 8080:80 --network mynetwork 
+
+docker swarm init --advertise-addr <masterIP>
+
+docker node ls
+docker service ls
+docker service create --replicas 2 -p 80:80 --name web1 httpd => Create new container in cluster.
+docker service ls  => list the container in nodes/
+docker service process ps web1
+docker service create --mode global -p 8080:80 --name web2 httpd    [Mode: Replicated, Global]
+docker network create -d overlay newoverlay => to create new overlay network
+docker service scale web1=5  => Incresing the replicas
+docker service create --replicas=2 -p 80:80 --name new1 alagurajm/httpd:2.0
+docker service update --image alagurajm/httpd:2.1 new1  [update to new version]
+docker service rollback new1 [update previous version]
+
+docker node promote worker1  => Making docker swarm master
+docker node demote worker1   =>   Removing Master from Swarm
+docker node update --availability drain worker2 => container will move to another node
+docker node update --availability pause worker1 => It will not launch new contaoner in this node, But existing node will run
+docker node update --availability active worker1
+
+=================================================== **************** ========================================================
+Kubernates:
+
+kubeadm init --api-adverdise-address
+kubectl get nodes
+kubectl get pods
+kubectl get ns
+kubectl create ns devops
+kubectl apply -f pod.yml
+kubectl get pods -n devops
+
+  kubectl get pods -n devops -o wide
+  kubectl get pods -n devops -o yaml
+
+kubectl get deploy -n devops
+kubectl get svc -n devops
+kubectl get secret -n devops
+kubectl get cm -n devops
+kubectl get ing -n devops
+kubectl get ing -n devops
+kubectl get pv -n devops
+kubectl get pvc -n devops
+
+  ** Utilization of pods and Nodes **
+
+kubectl nodes top
+kubectl pods top -n devops
+
+kubectl delete pods/web -n devops
+kubectl logs pods/web -n devops
+kubectl describe pods/web -n devops
+
+service [clusterIP, Loadbalancer, nodePort]
+volume - hostpath, pv, pvc
+Flannel, callico
+
+============================================================================
